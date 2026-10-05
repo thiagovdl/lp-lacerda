@@ -186,21 +186,21 @@
         // ====== CONFIGURAÇÃO ======
         // Links de checkout (Kiwify). Preencha os protocolos quando tiver os links.
         const LINKS = {
-            pontoInicial: '/ponto-inicial/#offer',
-            vingadores: '/protocolo-vingadores/#archetypes',
+            pontoInicial: '/ponto-inicial/',
+            olimpo: '/protocolo-olimpo/',
             whatsapp: 'https://wa.me/5537935003570?text=' + encodeURIComponent('Oi Thiago! Fiz o teste no site e quero saber da consultoria individual.')
         };
 
         const PROTOCOLOS = {
             M: {
-                definir: { nome: 'Protocolo Aranha', desc: 'Corpo atlético, leve e definido.' },
-                forca: { nome: 'Protocolo Asgard', desc: 'Ombros largos, peitoral denso e braços fortes.' },
-                massa: { nome: 'Protocolo Titan', desc: 'Foco total em ganho de massa muscular.' }
+                definir: { slug: 'hermes', nome: 'Protocolo Hermes', desc: 'Corpo atlético, leve e definido.' },
+                forca: { slug: 'ares', nome: 'Protocolo Ares', desc: 'Ombros largos, peitoral denso e braços fortes.' },
+                massa: { slug: 'atlas', nome: 'Protocolo Atlas', desc: 'Foco total em ganho de massa muscular.' }
             },
             F: {
-                definir: { nome: 'Protocolo Wakanda', desc: 'Tônus muscular e baixo percentual de gordura.' },
-                forca: { nome: 'Protocolo Romanov', desc: 'Pernas torneadas, glúteos fortes e curvas.' },
-                massa: { nome: 'Protocolo Gamma', desc: 'Volume máximo de pernas e glúteos.' }
+                definir: { slug: 'artemis', nome: 'Protocolo Ártemis', desc: 'Tônus muscular e baixo percentual de gordura.' },
+                forca: { slug: 'atena', nome: 'Protocolo Atena', desc: 'Pernas torneadas, glúteos fortes e curvas.' },
+                massa: { slug: 'gaia', nome: 'Protocolo Gaia', desc: 'Volume máximo de pernas e glúteos.' }
             }
         };
 
@@ -268,33 +268,23 @@
 
         function renderResult() {
             const iniciante = ['zero', 'pouco'].includes(answers.experiencia);
-            const pontoInicial = iniciante || answers.local === 'casa' || answers.objetivo === 'emagrecer';
+            const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
+            const p = PROTOCOLOS[answers.sexo][objetivo];
             const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
-            track('Lead', { content_name: pontoInicial ? 'ponto-inicial' : 'vingadores' });
-
-            if (pontoInicial) {
-                el.innerHTML = `
-                    <div class="result">
-                        <span class="tag">Seu resultado</span>
-                        <h1>Seu plano ideal é o <span class="highlight">Ponto Inicial</span></h1>
-                        <p>${iniciante ? 'Como você está começando (ou recomeçando),' : 'Pro seu objetivo,'} o melhor caminho é aprender a base certa: dieta flexível e treino simples, sem radicalismo.</p>
-                        <p>${extra}</p>
-                        <a class="btn hero-cta" href="${LINKS.pontoInicial}">VER O PONTO INICIAL</a>
-                        <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
-                    </div>`;
-            } else {
-                const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
-                const p = PROTOCOLOS[answers.sexo][objetivo];
-                el.innerHTML = `
-                    <div class="result">
-                        <span class="tag">Seu resultado</span>
-                        <h1>Seu plano ideal é o <span class="highlight">${p.nome}</span></h1>
-                        <p>${p.desc} Você já tem base de treino, então pode ir direto para um protocolo focado no seu objetivo.</p>
-                        <p>${extra}</p>
-                        <a class="btn hero-cta" href="${LINKS.vingadores}">VER MEU PROTOCOLO</a>
-                        <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
-                    </div>`;
-            }
+            track('Lead', { content_name: p.slug });
+            const base = iniciante
+                ? 'Como você está começando (ou recomeçando), siga o protocolo no seu ritmo: as cargas e a intensidade se adaptam ao seu nível.'
+                : 'Você já tem base de treino, então pode ir direto para um protocolo focado no seu objetivo.';
+            el.innerHTML = `
+                <div class="result">
+                    <span class="tag">Seu resultado</span>
+                    <h1>Seu plano ideal é o <span class="highlight">${p.nome}</span></h1>
+                    <p>${p.desc} ${base}</p>
+                    <p>${extra}</p>
+                    <a class="btn hero-cta" href="${LINKS.olimpo}#${p.slug}">QUERO MEU PROTOCOLO · R$27</a>
+                    <span class="alt-link">Quer aprender a montar sua própria dieta? <a href="${LINKS.pontoInicial}">Conheça o Ponto Inicial</a></span>
+                    <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
+                </div>`;
         }
 
         render();
