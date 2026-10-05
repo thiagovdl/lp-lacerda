@@ -792,11 +792,17 @@ body {
 }
 
 .results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 24px;
     margin-top: 50px;
-    align-items: start;
+    align-items: flex-start;
+}
+
+.results-grid .result-card {
+    flex: 0 1 calc((100% - 48px) / 3);
+    min-width: 260px;
 }
 
 .result-card {
@@ -815,7 +821,7 @@ body {
 .result-card img {
     width: 100%;
     display: block;
-    aspect-ratio: 606 / 543;
+    aspect-ratio: 940 / 788;
     object-fit: cover;
 }
 
