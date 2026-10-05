@@ -8,6 +8,7 @@ export default defineConfig({
                 main: resolve(__dirname, 'index.html'),
                 metodoStart: resolve(__dirname, 'ponto-inicial/index.html'),
                 protocoloVingadores: resolve(__dirname, 'protocolo-vingadores/index.html'),
+                protocoloOlimpo: resolve(__dirname, 'protocolo-olimpo/index.html'),
                 quiz: resolve(__dirname, 'quiz/index.html'),
             },
         },
