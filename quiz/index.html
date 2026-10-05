@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+    <title>Descubra seu plano ideal - LacerdaTEAM</title>
+    <meta name="description" content="Responda 5 perguntas rápidas e descubra o plano LacerdaTEAM ideal para o seu objetivo.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../ponto-inicial/style.css">
+    <style>
+        .quiz-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 50% 30%, #1a0506 0%, #000 80%);
+            padding: 40px 0;
+        }
+
+        .quiz-box {
+            max-width: 640px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-brand {
+            font-family: var(--font-heading);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .progress {
+            height: 4px;
+            background: #222;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: var(--color-primary);
+            box-shadow: 0 0 12px var(--color-primary-glow);
+            transition: width 0.4s ease;
+        }
+
+        .step-count {
+            color: #777;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .quiz-question {
+            font-family: var(--font-heading);
+            font-size: 1.7rem;
+            line-height: 1.25;
+            margin-bottom: 26px;
+            color: #fff;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            text-align: left;
+            background: var(--color-glass);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .option:hover,
+        .option:focus-visible {
+            border-color: var(--color-primary);
+            background: rgba(158, 28, 32, 0.12);
+            outline: none;
+        }
+
+        .option .emoji {
+            font-size: 1.5rem;
+        }
+
+        .back {
+            background: none;
+            border: none;
+            color: #777;
+            margin-top: 20px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+
+        .back:hover {
+            color: #fff;
+        }
+
+        .result {
+            text-align: center;
+        }
+
+        .result .tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #aaa;
+            border: 1px solid #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .result h1 {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .result p {
+            color: #bbb;
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+        }
+
+        .result .btn {
+            margin-top: 18px;
+        }
+
+        .alt-link {
+            display: block;
+            margin-top: 22px;
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        .alt-link a {
+            color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 576px) {
+            .quiz-question {
+                font-size: 1.35rem;
+            }
+
+            .result h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="quiz-page">
+        <div class="container quiz-box">
+            <div class="quiz-brand">Lacerda<span class="highlight">TEAM</span></div>
+            <div class="progress"><div class="progress-bar" id="bar"></div></div>
+            <div id="quiz"></div>
+        </div>
+    </main>
+
+    <script>
+        // ====== CONFIGURAÇÃO ======
+        // Links de checkout (Kiwify). Preencha os protocolos quando tiver os links.
+        const LINKS = {
+            pontoInicial: '/ponto-inicial/#offer',
+            vingadores: '/protocolo-vingadores/#archetypes',
+            whatsapp: 'https://wa.me/5537935003570?text=' + encodeURIComponent('Oi Thiago! Fiz o teste no site e quero saber da consultoria individual.')
+        };
+
+        const PROTOCOLOS = {
+            M: {
+                definir: { nome: 'Protocolo Aranha', desc: 'Corpo atlético, leve e definido.' },
+                forca: { nome: 'Protocolo Asgard', desc: 'Ombros largos, peitoral denso e braços fortes.' },
+                massa: { nome: 'Protocolo Titan', desc: 'Foco total em ganho de massa muscular.' }
+            },
+            F: {
+                definir: { nome: 'Protocolo Wakanda', desc: 'Tônus muscular e baixo percentual de gordura.' },
+                forca: { nome: 'Protocolo Romanov', desc: 'Pernas torneadas, glúteos fortes e curvas.' },
+                massa: { nome: 'Protocolo Gamma', desc: 'Volume máximo de pernas e glúteos.' }
+            }
+        };
+
+        const QUESTIONS = [
+            {
+                id: 'sexo', q: 'Pra começar: você é...',
+                opts: [['F', '👩', 'Mulher'], ['M', '👨', 'Homem']]
+            },
+            {
+                id: 'objetivo', q: 'Qual é o seu objetivo principal hoje?',
+                opts: [['emagrecer', '🔥', 'Emagrecer e perder barriga'], ['definir', '⚡', 'Ficar definido(a) e atlético(a)'],
+                ['forca', '🏋️', 'Ganhar força e formas (curvas / ombros)'], ['massa', '💪', 'Ganhar massa muscular']]
+            },
+            {
+                id: 'experiencia', q: 'Há quanto tempo você treina?',
+                opts: [['zero', '🌱', 'Não treino / estou parado(a)'], ['pouco', '📅', 'Menos de 6 meses'],
+                ['medio', '📈', 'Entre 6 meses e 2 anos'], ['muito', '🏆', 'Mais de 2 anos']]
+            },
+            {
+                id: 'local', q: 'Onde você vai treinar?',
+                opts: [['academia', '🏢', 'Na academia'], ['casa', '🏠', 'Em casa']]
+            },
+            {
+                id: 'dificuldade', q: 'O que mais te atrapalhou até hoje?',
+                opts: [['dieta', '🍕', 'Não consigo manter dieta, sempre desisto'], ['comeco', '🧭', 'Não sei por onde começar'],
+                ['resultado', '😤', 'Faço tudo e não vejo resultado'], ['tempo', '⏰', 'Falta de tempo e rotina corrida']]
+            }
+        ];
+
+        const MSG_DIFICULDADE = {
+            dieta: 'Você disse que sempre desiste da dieta. Por isso aqui você aprende a encaixar o que gosta (até hambúrguer) no plano, em vez de cortar tudo.',
+            comeco: 'Você disse que não sabe por onde começar. Aqui você recebe o passo a passo pronto: o que comer e como treinar.',
+            resultado: 'Você disse que faz tudo e não vê resultado. Geralmente o problema é método, não esforço, e é isso que vamos ajustar.',
+            tempo: 'Você disse que a rotina é corrida. O plano foi pensado pra caber na vida real, sem marmita o dia inteiro.'
+        };
+
+        const answers = {};
+        let step = 0;
+        const el = document.getElementById('quiz');
+        const bar = document.getElementById('bar');
+
+        function track(event, params) {
+            try { if (window.fbq) fbq('track', event, params || {}); } catch (e) { }
+        }
+
+        function render() {
+            bar.style.width = (step / QUESTIONS.length * 100) + '%';
+            if (step >= QUESTIONS.length) return renderResult();
+            const item = QUESTIONS[step];
+            el.innerHTML = `
+                <div class="step-count">Pergunta ${step + 1} de ${QUESTIONS.length}</div>
+                <h2 class="quiz-question">${item.q}</h2>
+                <div class="options">
+                    ${item.opts.map(([v, e, t]) => `<button class="option" data-v="${v}"><span class="emoji">${e}</span>${t}</button>`).join('')}
+                </div>
+                ${step > 0 ? '<button class="back" id="back">← Voltar</button>' : ''}`;
+            el.querySelectorAll('.option').forEach(b => b.addEventListener('click', () => {
+                answers[item.id] = b.dataset.v;
+                step++;
+                render();
+            }));
+            const back = document.getElementById('back');
+            if (back) back.addEventListener('click', () => { step--; render(); });
+        }
+
+        function renderResult() {
+            const iniciante = ['zero', 'pouco'].includes(answers.experiencia);
+            const pontoInicial = iniciante || answers.local === 'casa' || answers.objetivo === 'emagrecer';
+            const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
+            track('Lead', { content_name: pontoInicial ? 'ponto-inicial' : 'vingadores' });
+
+            if (pontoInicial) {
+                el.innerHTML = `
+                    <div class="result">
+                        <span class="tag">Seu resultado</span>
+                        <h1>Seu plano ideal é o <span class="highlight">Ponto Inicial</span></h1>
+                        <p>${iniciante ? 'Como você está começando (ou recomeçando),' : 'Pro seu objetivo,'} o melhor caminho é aprender a base certa: dieta flexível e treino simples, sem radicalismo.</p>
+                        <p>${extra}</p>
+                        <a class="btn hero-cta" href="${LINKS.pontoInicial}">VER O PONTO INICIAL</a>
+                        <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
+                    </div>`;
+            } else {
+                const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
+                const p = PROTOCOLOS[answers.sexo][objetivo];
+                el.innerHTML = `
+                    <div class="result">
+                        <span class="tag">Seu resultado</span>
+                        <h1>Seu plano ideal é o <span class="highlight">${p.nome}</span></h1>
+                        <p>${p.desc} Você já tem base de treino, então pode ir direto para um protocolo focado no seu objetivo.</p>
+                        <p>${extra}</p>
+                        <a class="btn hero-cta" href="${LINKS.vingadores}">VER MEU PROTOCOLO</a>
+                        <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
+                    </div>`;
+            }
+        }
+
+        render();
+    </script>
+</body>
+
+</html>
