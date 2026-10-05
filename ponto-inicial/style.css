@@ -771,3 +771,175 @@ body {
         transform: translateY(0);
     }
 }
+/* ===== Added: CTAs, Results, Testimonials, Offer details ===== */
+.hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn-ghost {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ddd;
+}
+
+.section-cta {
+    margin-top: 50px;
+}
+
+.results {
+    background: #0a0a0a;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 50px;
+    align-items: start;
+}
+
+.result-card {
+    background: var(--color-glass);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.result-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 30px rgba(158, 28, 32, 0.2);
+}
+
+.result-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 606 / 543;
+    object-fit: cover;
+}
+
+.result-card.tall img {
+    aspect-ratio: 567 / 640;
+    object-position: center 60%;
+}
+
+.result-card figcaption {
+    padding: 16px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.result-card figcaption strong {
+    font-family: var(--font-heading);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.result-card figcaption span {
+    color: #999;
+    font-size: 0.95rem;
+}
+
+.results-disclaimer {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.chat-bubble {
+    background: #1f2c33;
+    border-radius: 4px 18px 18px 18px;
+    padding: 20px 22px;
+    position: relative;
+    border-left: 3px solid var(--color-primary);
+}
+
+.chat-bubble p {
+    color: #e9edef;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+}
+
+.chat-bubble cite {
+    color: #8696a0;
+    font-style: normal;
+    font-size: 0.85rem;
+}
+
+.offer-list {
+    list-style: none;
+    text-align: left;
+    margin: 0 auto 10px;
+    max-width: 320px;
+}
+
+.offer-list li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+    color: #ddd;
+}
+
+.offer-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.guarantee {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    text-align: left;
+}
+
+.guarantee-seal {
+    flex: 0 0 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.card .guarantee p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.card .quiz-hint {
+    margin: 18px 0 0;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.quiz-hint a {
+    color: #fff;
+}
+
+@media (max-width: 992px) {
+    .hero-ctas {
+        justify-content: center;
+    }
+}
+
+.authority {
+    overflow: hidden;
+}
