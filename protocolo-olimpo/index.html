@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <title>Protocolo Olimpo - LacerdaTEAM</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Lexend+Zetta:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .card-art { height: 300px; background: var(--art); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+    .card-art::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 4px); pointer-events: none; }
+    .art-kicker { font-family: 'Roboto', sans-serif; letter-spacing: 6px; font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+    .art-name { font-family: 'Black Ops One', cursive; font-size: 3.2rem; line-height: 1.05; color: #fff; text-shadow: 0 4px 30px rgba(0,0,0,0.5); margin: 6px 0 10px; }
+    .art-sub { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.65); border-top: 1px solid rgba(255,255,255,0.3); padding-top: 8px; }
+    .inline-link { color: #fff; text-decoration: underline; }
+    @media (max-width: 768px) { .card-art { height: 220px; } .art-name { font-size: 2.6rem; } }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Hero Section -->
+    <header class="hero" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-text fade-in">
+          <h1 class="hero-headline">PROTOCOLO <span class="highlight">OLIMPO</span></h1>
+          <p class="hero-subheadline">Não é apenas sobre treino. É sobre escolher quem você quer se tornar. Seis protocolos de dieta e treino,
+            cada um inspirado em um arquétipo do Olimpo, para esculpir o seu físico ideal. A partir de R$27.</p>
+          <a href="#archetypes" class="btn hero-cta">ESCOLHER MEU ARQUÉTIPO</a>
+        </div>
+        <div class="hero-image fade-in">
+          <img src="/fotos/Thiago.png" alt="Thiago Lacerda"
+            onerror="this.src='https://placehold.co/600x800/383839/9e1c20?text=Thiago+Lacerda'" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Problem Section -->
+    <section class="problem section-padding" id="problem">
+      <div class="container text-center">
+        <h2 class="section-title">Qual arquétipo você quer <span class="highlight">ser</span>?</h2>
+        <p class="section-copy">Muitas vezes falhamos porque não temos uma visão clara do objetivo. O <strong>Protocolo
+            Olimpo</strong> simplifica isso. Associamos tipos físicos a arquétipos da mitologia para que você visualize
+          exatamente onde quer chegar. Escolha sua missão.</p>
+      </div>
+    </section>
+
+    <!-- Archetypes Section -->
+    <section class="archetypes section-padding" id="archetypes">
+      <div class="container">
+        <h2 class="section-title text-center">Escolha Seu <span class="highlight">Arquétipo</span></h2>
+        <p class="section-copy text-center">Não sabe qual escolher? <a href="/quiz/" class="inline-link">Faça o teste de 1 minuto</a>.</p>
+        <div class="cards-grid">
+
+          <div class="card" data-tilt id="hermes">
+            <div class="card-art" style="--art: linear-gradient(160deg, #3a0d0d,#9e1c20)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">HERMES</span>
+              <span class="art-sub">Atlético Masculino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Hermes</h3>
+              <p class="card-focus">Atlético Masculino</p>
+              <p class="card-desc">Agilidade, definição muscular e corpo funcional. Para quem quer um físico leve, seco e pronto para qualquer movimento.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20Hermes%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="hermes">QUERO SER ÁGIL</a>
+            </div>
+          </div>
+
+          <div class="card" data-tilt id="artemis">
+            <div class="card-art" style="--art: linear-gradient(160deg, #3d2208,#c47a1e)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">ÁRTEMIS</span>
+              <span class="art-sub">Atlético Feminino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Ártemis</h3>
+              <p class="card-focus">Atlético Feminino</p>
+              <p class="card-desc">Tônus muscular, definição e baixo percentual de gordura. Um corpo forte, sem perder a leveza.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20%C3%81rtemis%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="artemis">QUERO DEFINIÇÃO</a>
+            </div>
+          </div>
+
+          <div class="card" data-tilt id="ares">
+            <div class="card-art" style="--art: linear-gradient(160deg, #14143a,#4b46b8)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">ARES</span>
+              <span class="art-sub">Força Masculino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Ares</h3>
+              <p class="card-focus">Força Masculino</p>
+              <p class="card-desc">Ombros largos, peitoral denso e braços fortes. Força de verdade com estética: volume com qualidade.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20Ares%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="ares">QUERO FORÇA</a>
+            </div>
+          </div>
+
+          <div class="card" data-tilt id="atena">
+            <div class="card-art" style="--art: linear-gradient(160deg, #0d2433,#2f7fa6)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">ATENA</span>
+              <span class="art-sub">Força Feminino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Atena</h3>
+              <p class="card-focus">Força Feminino</p>
+              <p class="card-desc">Pernas torneadas, glúteos fortes e curvas com força real. Um físico imponente e feminino.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20Atena%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="atena">QUERO CURVAS</a>
+            </div>
+          </div>
+
+          <div class="card" data-tilt id="atlas">
+            <div class="card-art" style="--art: linear-gradient(160deg, #0d2a12,#2f8a3c)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">ATLAS</span>
+              <span class="art-sub">Hipertrofia Masculino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Atlas</h3>
+              <p class="card-focus">Hipertrofia Masculino</p>
+              <p class="card-desc">Foco total em ganho de massa muscular. Para quem quer crescer de verdade e ganhar presença física.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20Atlas%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="atlas">QUERO CRESCER</a>
+            </div>
+          </div>
+
+          <div class="card" data-tilt id="gaia">
+            <div class="card-art" style="--art: linear-gradient(160deg, #2a0d33,#8a3cb0)">
+              <span class="art-kicker">PROTOCOLO</span>
+              <span class="art-name">GAIA</span>
+              <span class="art-sub">Hipertrofia Feminino</span>
+            </div>
+            <div class="card-content">
+              <h3>Protocolo Gaia</h3>
+              <p class="card-focus">Hipertrofia Feminino</p>
+              <p class="card-desc">Volume máximo de pernas e glúteos. Para mulheres que não têm medo de crescer.</p>
+              <p class="card-price">R$ 27,00</p>
+              <a href="https://wa.me/5537935003570?text=Oi%20Thiago%21%20Quero%20o%20Protocolo%20Gaia%20%28R%2427%29." target="_blank" rel="noopener" class="btn card-btn" data-protocolo="gaia">QUERO VOLUME</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section class="methodology section-padding" id="methodology">
+      <div class="container">
+        <h2 class="section-title text-center">Por que o <span class="highlight">LacerdaTEAM</span> funciona?</h2>
+        <div class="methodology-grid">
+          <div class="method-item">
+            <div class="method-icon">🍕</div>
+            <h3>Dieta Flexível</h3>
+            <p>Coma o que gosta (sim, pizza e chocolate) com equilíbrio e cálculo de macronutrientes.</p>
+          </div>
+          <div class="method-item">
+            <div class="method-icon">🏋️</div>
+            <h3>Treino ABC/ABCD</h3>
+            <p>Divisões de treino otimizadas para cada objetivo (Definição, Força ou Volume).</p>
+          </div>
+          <div class="method-item">
+            <div class="method-icon">🧠</div>
+            <h3>Mentalidade</h3>
+            <p>Motivação te faz começar, disciplina te mantém. Aprenda a pensar como um campeão.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section: Data Bank -->
+    <section class="faq section-padding" id="faq">
+      <div class="container">
+        <h2 class="section-title text-center">Perguntas <span class="highlight">Frequentes</span></h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="faq-id">Q-001</span>
+              <h3>COMO RECEBO O ACESSO?</h3>
+              <div class="tech-line"></div>
+              <span class="toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p><strong>RESPOSTA DO SISTEMA:</strong> Imediatamente após a confirmação do pagamento, você recebe por
+                e-mail o acesso ao seu protocolo (dieta e treino em PDF).</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="faq-id">Q-002</span>
+              <h3>SERVE PARA INICIANTES?</h3>
+              <div class="tech-line"></div>
+              <span class="toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p><strong>RESPOSTA DO SISTEMA:</strong> Sim! Cada protocolo tem adaptações de carga e intensidade. Você
+                começa no seu ritmo e evolui com constância.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="faq-id">Q-003</span>
+              <h3>E SE EU NÃO GOSTAR?</h3>
+              <div class="tech-line"></div>
+              <span class="toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p><strong>RESPOSTA DO SISTEMA:</strong> Você tem 7 dias de garantia incondicional. Se não for o que
+                esperava, devolvemos 100% do seu dinheiro.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authority Section: Dossier -->
+    <section class="authority section-padding" id="authority">
+      <div class="container">
+        <div class="shield-dossier">
+          <div class="dossier-header">
+            <span class="dossier-label">CLASSIFIED // TOP SECRET</span>
+            <span class="dossier-id">ID: LACERDA-001</span>
+          </div>
+          <div class="dossier-content">
+            <div class="dossier-image">
+              <img src="/fotos/IMG_6247.JPG" alt="Thiago Lacerda" class="agent-photo"
+                onerror="this.src='https://placehold.co/600x800/383839/9e1c20?text=AGENT+LACERDA'" />
+              <div class="scan-line"></div>
+              <div class="tech-overlay"></div>
+            </div>
+            <div class="dossier-info">
+              <h2 class="agent-name">THIAGO LACERDA</h2>
+              <p class="agent-role">HEAD TRAINER // NUTRITIONIST</p>
+              <div class="agent-bio">
+                <p><strong>MISSION PROFILE:</strong> Bacharel em Nutrição e Graduando em Ed. Física. Thiago Lacerda
+                  combina ciência avançada com a prática de elite.</p>
+                <p><strong>SPECIAL TRAINING:</strong> Mentorado por gigantes como <strong>Paulo Muzy</strong> e
+                  <strong>Rubens Gomes</strong> (Universidade Maromba). Especialista em Alta Performance e Recomposição
+                  Corporal.
+                </p>
+                <p><strong>STATUS:</strong> OPERACIONAL. Sem "soluções milagrosas". Apenas fisiologia, treino pesado e
+                  constância.</p>
+              </div>
+
+              <div class="power-levels">
+                <div class="power-stat">
+                  <span class="stat-name">EXPERIÊNCIA</span>
+                  <div class="stat-bar-container">
+                    <div class="stat-bar" style="width: 95%"></div>
+                  </div>
+                </div>
+                <div class="power-stat">
+                  <span class="stat-name">ALUNOS TRANSFORMADOS</span>
+                  <div class="stat-bar-container">
+                    <div class="stat-bar" style="width: 98%"></div>
+                  </div>
+                </div>
+                <div class="power-stat">
+                  <span class="stat-name">TAXA DE SUCESSO</span>
+                  <div class="stat-bar-container">
+                    <div class="stat-bar" style="width: 99%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dossier-footer">
+            <span class="dossier-status">SYSTEM ONLINE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upsell: Ponto Inicial -->
+    <section class="cross-promo section-padding text-center">
+      <div class="container">
+        <div class="mission-alert">
+          <div class="alert-header">
+            <span class="alert-title">PRÓXIMO NÍVEL</span>
+          </div>
+          <div class="alert-content">
+            <h2>QUER O PASSO A PASSO COMPLETO?</h2>
+            <p>O protocolo te entrega a dieta e o treino prontos. O <strong>PONTO INICIAL</strong> vai além: aulas curtas em
+              vídeo que te ensinam a montar e ajustar sua própria dieta flexível, pra nunca mais depender de dieta pronta.</p>
+            <a href="../ponto-inicial/" class="btn hero-cta alert-btn">CONHECER O PONTO INICIAL</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container text-center">
+        <h3 class="footer-logo">Lacerda<span class="highlight">TEAM</span></h3>
+        <div class="footer-links">
+          <a href="./termos.html">Termos de Uso</a>
+          <a href="https://wa.me/5537935003570" target="_blank">Contato</a>
+        </div>
+        <p class="copyright">&copy; 2026 LacerdaTEAM. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="../main.js"></script>
+</body>
+
+</html>
