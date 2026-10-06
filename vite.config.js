@@ -10,6 +10,7 @@ export default defineConfig({
                 protocoloVingadores: resolve(__dirname, 'protocolo-vingadores/index.html'),
                 protocoloOlimpo: resolve(__dirname, 'protocolo-olimpo/index.html'),
                 quiz: resolve(__dirname, 'quiz/index.html'),
+                obrigadoOlimpo: resolve(__dirname, 'obrigado-olimpo/index.html'),
             },
         },
     },
