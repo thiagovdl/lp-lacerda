@@ -7,7 +7,7 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
     <title>Descubra seu plano ideal - LacerdaTEAM</title>
-    <meta name="description" content="Responda 5 perguntas rápidas e descubra o plano LacerdaTEAM ideal para o seu objetivo.">
+    <meta name="description" content="Responda 6 perguntas rápidas e descubra o plano LacerdaTEAM ideal para o seu objetivo.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../ponto-inicial/style.css">
@@ -227,8 +227,30 @@
                 id: 'dificuldade', q: 'O que mais te atrapalhou até hoje?',
                 opts: [['dieta', '🍕', 'Não consigo manter dieta, sempre desisto'], ['comeco', '🧭', 'Não sei por onde começar'],
                 ['resultado', '😤', 'Faço tudo e não vejo resultado'], ['tempo', '⏰', 'Falta de tempo e rotina corrida']]
+            },
+            {
+                id: 'investimento', q: 'Quanto você estaria disposto(a) a investir por mês pra ter alguém te acompanhando de perto?',
+                opts: [['baixo', '🌱', 'Prefiro começar com algo de baixo custo'], ['ate150', '💵', 'Até R$150 por mês'],
+                ['200a300', '💳', 'Entre R$200 e R$300 por mês'], ['mais300', '🚀', 'Mais de R$300 por mês']]
             }
         ];
+
+        const TXT = {
+            sexo: { F: 'mulher', M: 'homem' },
+            objetivo: { emagrecer: 'emagrecer', definir: 'ficar definido(a)', forca: 'ganhar força e formas', massa: 'ganhar massa muscular' },
+            experiencia: { zero: 'não treino / estou parado(a)', pouco: 'treino há menos de 6 meses', medio: 'treino entre 6 meses e 2 anos', muito: 'treino há mais de 2 anos' },
+            local: { academia: 'na academia', casa: 'em casa' },
+            dificuldade: { dieta: 'não consigo manter dieta', comeco: 'não sei por onde começar', resultado: 'faço tudo e não vejo resultado', tempo: 'falta de tempo' },
+            investimento: { baixo: 'algo de baixo custo', ate150: 'até R$150/mês', '200a300': 'R$200 a R$300/mês', mais300: 'mais de R$300/mês' }
+        };
+
+        function whatsappComRespostas() {
+            const a = answers;
+            const msg = 'Oi Thiago! Fiz o teste no site. Sou ' + TXT.sexo[a.sexo] + ', quero ' + TXT.objetivo[a.objetivo] +
+                ', ' + TXT.experiencia[a.experiencia] + ' (' + TXT.local[a.local] + '). O que mais me atrapalha: ' +
+                TXT.dificuldade[a.dificuldade] + '. Posso investir ' + TXT.investimento[a.investimento] + '. Quero saber da consultoria!';
+            return 'https://wa.me/5537935003570?text=' + encodeURIComponent(msg);
+        }
 
         const MSG_DIFICULDADE = {
             dieta: 'Você disse que sempre desiste da dieta. Por isso aqui você aprende a encaixar o que gosta (até hambúrguer) no plano, em vez de cortar tudo.',
@@ -267,6 +289,9 @@
         }
 
         function renderResult() {
+            const inv = answers.investimento;
+            if (inv === '200a300' || inv === 'mais300') return renderConsultoria();
+            if (inv === 'ate150') return renderPontoInicial();
             const iniciante = ['zero', 'pouco'].includes(answers.experiencia);
             const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
             const p = PROTOCOLOS[answers.sexo][objetivo];
@@ -283,7 +308,37 @@
                     <p>${extra}</p>
                     <a class="btn hero-cta" href="${LINKS.olimpo}#${p.slug}">QUERO MEU PROTOCOLO · R$27</a>
                     <span class="alt-link">Quer ir além do protocolo? <a href="${LINKS.pontoInicial}">Conheça o Ponto Inicial</a>, com aulas sobre alimentação, treino e mentalidade</span>
-                    <span class="alt-link">Quer um plano 100% individual? <a href="${LINKS.whatsapp}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
+                    <span class="alt-link">Quer um plano 100% individual? <a href="${whatsappComRespostas()}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
+                </div>`;
+        }
+
+        function renderConsultoria() {
+            const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
+            track('Lead', { content_name: 'consultoria' });
+            el.innerHTML = `
+                <div class="result">
+                    <span class="tag">Seu resultado</span>
+                    <h1>Seu perfil é para o <span class="highlight">acompanhamento individual</span></h1>
+                    <p>Pelas suas respostas, o que vai fazer diferença pra você é um plano 100% seu, com dieta, treino e ajustes de perto, e não um material pronto.</p>
+                    <p>${extra}</p>
+                    <a class="btn hero-cta" href="${whatsappComRespostas()}" target="_blank" rel="noopener">FALAR COM O THIAGO NO WHATSAPP</a>
+                    <span class="alt-link">Suas respostas já vão na mensagem, é só enviar.</span>
+                    <span class="alt-link">Prefere começar sozinho(a)? <a href="${LINKS.olimpo}">Veja os protocolos de R$27</a></span>
+                </div>`;
+        }
+
+        function renderPontoInicial() {
+            const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
+            track('Lead', { content_name: 'ponto-inicial' });
+            el.innerHTML = `
+                <div class="result">
+                    <span class="tag">Seu resultado</span>
+                    <h1>Seu plano ideal é o <span class="highlight">Ponto Inicial</span></h1>
+                    <p>Aulas curtas sobre alimentação, treino e mentalidade, com plano alimentar flexível e ficha de treino em PDF. Um bom começo pra quem quer resultado sem gastar muito.</p>
+                    <p>${extra}</p>
+                    <a class="btn hero-cta" href="${LINKS.pontoInicial}">CONHECER O PONTO INICIAL</a>
+                    <span class="alt-link">Quer algo ainda mais simples? <a href="${LINKS.olimpo}">Veja os protocolos de R$27</a></span>
+                    <span class="alt-link">Quer um plano 100% individual? <a href="${whatsappComRespostas()}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
                 </div>`;
         }
 
