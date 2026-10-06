@@ -157,6 +157,17 @@
             color: #fff;
         }
 
+        .lead-form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+        .lead-form label { color: #bbb; font-size: 0.95rem; display: flex; flex-direction: column; gap: 6px; }
+        .lead-form input { background: var(--color-glass); border: 1px solid var(--color-glass-border); border-radius: 10px; color: #fff;
+            font-family: var(--font-body); font-size: 1.1rem; padding: 15px 16px; outline: none; }
+        .lead-form input:focus { border-color: var(--color-primary); }
+        .lead-form .opt { color: #777; font-size: 0.85rem; }
+        .lead-form .btn { margin-top: 6px; width: 100%; text-align: center; cursor: pointer; }
+        .lead-error { color: #f87171; font-size: 0.9rem; min-height: 1.2em; }
+        .lgpd { color: #777; font-size: 0.8rem; text-align: center; margin-top: 4px; }
+        .contato-sub { color: #bbb; font-size: 1.05rem; margin: -12px 0 22px; }
+
         .hidden {
             display: none;
         }
@@ -171,6 +182,14 @@
             }
         }
     </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1050149673150383');fbq('track','PageView');
+document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a[href*="pay.kiwify.com.br"]');if(a)fbq('track','InitiateCheckout');},true);
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1050149673150383&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 
 <body>
@@ -185,6 +204,9 @@
     <script>
         // ====== CONFIGURAÇÃO ======
         // Links de checkout (Kiwify). Preencha os protocolos quando tiver os links.
+        // URL do script do Google que grava os leads na aba "Leads Quiz" da planilha de vendas
+        const LEADS_URL = 'https://script.google.com/macros/s/AKfycbzcdBNMRjuQ-kMJ52B2gQgWRRPbmW8Qyb1CvbBu71c4CmdwsgaHndif691qm9t3x4P-/exec';
+
         const LINKS = {
             pontoInicial: '/ponto-inicial/',
             olimpo: '/protocolo-olimpo/',
@@ -246,7 +268,7 @@
 
         function whatsappComRespostas() {
             const a = answers;
-            const msg = 'Oi Thiago! Fiz o teste no site. Sou ' + TXT.sexo[a.sexo] + ', quero ' + TXT.objetivo[a.objetivo] +
+            const msg = 'Oi Thiago! ' + (a.nome ? 'Aqui é ' + a.nome.split(' ')[0] + '. ' : '') + 'Fiz o teste no site. Sou ' + TXT.sexo[a.sexo] + ', quero ' + TXT.objetivo[a.objetivo] +
                 ', ' + TXT.experiencia[a.experiencia] + ' (' + TXT.local[a.local] + '). O que mais me atrapalha: ' +
                 TXT.dificuldade[a.dificuldade] + '. Posso investir ' + TXT.investimento[a.investimento] + '. Quero saber da consultoria!';
             return 'https://wa.me/5537935003570?text=' + encodeURIComponent(msg);
@@ -270,7 +292,7 @@
 
         function render() {
             bar.style.width = (step / QUESTIONS.length * 100) + '%';
-            if (step >= QUESTIONS.length) return renderResult();
+            if (step >= QUESTIONS.length) return answers.contatoOk ? renderResult() : renderContato();
             const item = QUESTIONS[step];
             el.innerHTML = `
                 <div class="step-count">Pergunta ${step + 1} de ${QUESTIONS.length}</div>
@@ -296,7 +318,7 @@
             const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
             const p = PROTOCOLOS[answers.sexo][objetivo];
             const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
-            track('Lead', { content_name: p.slug });
+            
             const base = iniciante
                 ? 'Como você está começando (ou recomeçando), siga o protocolo no seu ritmo: as cargas e a intensidade se adaptam ao seu nível.'
                 : 'Você já tem base de treino, então pode ir direto para um protocolo focado no seu objetivo.';
@@ -314,7 +336,7 @@
 
         function renderConsultoria() {
             const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
-            track('Lead', { content_name: 'consultoria' });
+            
             el.innerHTML = `
                 <div class="result">
                     <span class="tag">Seu resultado</span>
@@ -329,7 +351,7 @@
 
         function renderPontoInicial() {
             const extra = MSG_DIFICULDADE[answers.dificuldade] || '';
-            track('Lead', { content_name: 'ponto-inicial' });
+            
             el.innerHTML = `
                 <div class="result">
                     <span class="tag">Seu resultado</span>
@@ -340,6 +362,82 @@
                     <span class="alt-link">Quer algo ainda mais simples? <a href="${LINKS.olimpo}">Veja os protocolos de R$27</a></span>
                     <span class="alt-link">Quer um plano 100% individual? <a href="${whatsappComRespostas()}" target="_blank" rel="noopener">Fale sobre a consultoria</a></span>
                 </div>`;
+        }
+
+        function destino() {
+            const inv = answers.investimento;
+            if (inv === '200a300' || inv === 'mais300') return 'Consultoria (WhatsApp)';
+            if (inv === 'ate150') return 'Ponto Inicial';
+            const objetivo = answers.objetivo === 'emagrecer' ? 'definir' : answers.objetivo;
+            return PROTOCOLOS[answers.sexo][objetivo].nome;
+        }
+
+        function utm() {
+            try {
+                const q = new URLSearchParams(location.search);
+                const partes = ['utm_source', 'utm_campaign', 'utm_content'].map(k => q.get(k)).filter(Boolean);
+                return partes.length ? partes.join(' / ') : (q.get('fbclid') ? 'Meta (anúncio)' : 'Direto');
+            } catch (e) { return ''; }
+        }
+
+        function enviarLead() {
+            const a = answers;
+            const dados = {
+                nome: a.nome, whatsapp: a.whatsapp, instagram: a.instagram || '',
+                sexo: TXT.sexo[a.sexo], objetivo: TXT.objetivo[a.objetivo], experiencia: TXT.experiencia[a.experiencia],
+                local: TXT.local[a.local], dificuldade: TXT.dificuldade[a.dificuldade], investimento: TXT.investimento[a.investimento],
+                resultado: destino(), origem: utm()
+            };
+            if (!LEADS_URL) return;
+            try {
+                fetch(LEADS_URL, { method: 'POST', mode: 'no-cors', keepalive: true,
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(dados) });
+            } catch (e) { }
+        }
+
+        function renderContato() {
+            bar.style.width = '100%';
+            el.innerHTML = `
+                <div class="step-count">Último passo</div>
+                <h2 class="quiz-question">Seu resultado está pronto! 🎯</h2>
+                <p class="contato-sub">Deixa seu nome e WhatsApp pra gente te mostrar o plano ideal pra você.</p>
+                <form class="lead-form" id="leadForm" novalidate>
+                    <label>Seu nome
+                        <input type="text" id="fNome" autocomplete="name" placeholder="Como você se chama?" maxlength="80" value="${answers.nome || ''}">
+                    </label>
+                    <label>Seu WhatsApp
+                        <input type="tel" id="fZap" autocomplete="tel" inputmode="tel" placeholder="(37) 99999-9999" maxlength="20" value="${answers.whatsapp || ''}">
+                    </label>
+                    <label><span>Seu Instagram <span class="opt">(opcional)</span></span>
+                        <input type="text" id="fInsta" placeholder="@seuperfil" maxlength="40" value="${answers.instagram || ''}">
+                    </label>
+                    <div class="lead-error" id="fErro"></div>
+                    <button type="submit" class="btn hero-cta">VER MEU RESULTADO</button>
+                    <p class="lgpd">Ao continuar, você aceita receber contato da LacerdaTEAM pelo WhatsApp. Seus dados não são compartilhados com ninguém.</p>
+                </form>
+                <button class="back" id="back">← Voltar</button>`;
+            const zap = document.getElementById('fZap');
+            zap.addEventListener('input', () => {
+                let d = zap.value.replace(/\D/g, '').slice(0, 11);
+                if (d.length > 6) zap.value = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+                else if (d.length > 2) zap.value = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+                else zap.value = d;
+            });
+            document.getElementById('back').addEventListener('click', () => { step--; render(); });
+            document.getElementById('leadForm').addEventListener('submit', (ev) => {
+                ev.preventDefault();
+                const nome = document.getElementById('fNome').value.trim();
+                const digitos = zap.value.replace(/\D/g, '');
+                let insta = document.getElementById('fInsta').value.trim();
+                const erro = document.getElementById('fErro');
+                if (nome.length < 2) { erro.textContent = 'Digite seu nome.'; return; }
+                if (digitos.length < 10 || digitos.length > 11) { erro.textContent = 'Digite seu WhatsApp com DDD.'; return; }
+                if (insta && !insta.startsWith('@')) insta = '@' + insta;
+                answers.nome = nome; answers.whatsapp = zap.value; answers.instagram = insta; answers.contatoOk = true;
+                enviarLead();
+                track('Lead', { content_name: destino() });
+                render();
+            });
         }
 
         render();
